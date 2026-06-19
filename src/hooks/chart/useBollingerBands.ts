@@ -11,7 +11,10 @@ import { bandLineOptions } from "../../lib/chartOptions";
 import { useLatestRef } from "../useLatestRef";
 import type { ChartRefs } from "./useChart";
 
-const BAND_COLOR = "#5c6bc0";
+// Distinct hues so the three bands are easy to tell apart.
+const BAND_UPPER = "#ec407a"; // pink
+const BAND_MIDDLE = "#5c6bc0"; // indigo
+const BAND_LOWER = "#26c6da"; // cyan
 
 type BandSeries = {
   middle: ISeriesApi<"Line">;
@@ -47,9 +50,12 @@ export function useBollingerBands(
     }
     if (!seriesRef.current) {
       seriesRef.current = {
-        middle: chart.addSeries(LineSeries, bandLineOptions(BAND_COLOR, false)),
-        upper: chart.addSeries(LineSeries, bandLineOptions(BAND_COLOR, true)),
-        lower: chart.addSeries(LineSeries, bandLineOptions(BAND_COLOR, true)),
+        middle: chart.addSeries(
+          LineSeries,
+          bandLineOptions(BAND_MIDDLE, false),
+        ),
+        upper: chart.addSeries(LineSeries, bandLineOptions(BAND_UPPER, true)),
+        lower: chart.addSeries(LineSeries, bandLineOptions(BAND_LOWER, true)),
       };
     }
     const b = bollinger(candles, period, k);
