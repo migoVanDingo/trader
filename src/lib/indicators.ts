@@ -9,13 +9,17 @@ export interface LinePoint {
 /** Which indicators are active, driven by the store + IndicatorMenu. */
 export interface IndicatorConfig {
   ma: number[]; // active SMA periods
+  ema: number[]; // active EMA periods
+  bollinger: boolean;
+  volume: boolean;
+  volumeMa: boolean;
   rsi: boolean;
   rsiPeriod: number;
-  volume: boolean;
 }
 
 /** MA periods offered in the menu, with stable (theme-independent) colors. */
 export const MA_PERIODS = [20, 50, 100, 200];
+export const EMA_PERIODS = [9, 21, 50];
 
 const MA_COLORS: Record<number, string> = {
   20: "#f0b90b",
@@ -24,8 +28,83 @@ const MA_COLORS: Record<number, string> = {
   200: "#00bcd4",
 };
 
+const EMA_COLORS: Record<number, string> = {
+  9: "#ff9800",
+  21: "#ab47bc",
+  50: "#26c6da",
+};
+
 export function maColor(period: number): string {
   return MA_COLORS[period] ?? "#888888";
+}
+
+export function emaColor(period: number): string {
+  return EMA_COLORS[period] ?? "#888888";
+}
+
+/** Last value of an array of points, or null. */
+function last(points: LinePoint[]): number | null {
+  return points.length ? points[points.length - 1].value : null;
+}
+
+/** Final EMA value (O(n) but no array kept) — for live ticks. */
+export function emaLast(candles: Candle[], period: number): number | null {
+  return last(ema(candles, period));
+}
+
+/** Bollinger Bands: SMA(period) ± k·σ over closes. */
+export interface Bands {
+  middle: LinePoint[];
+  upper: LinePoint[];
+  lower: LinePoint[];
+}
+
+export function bollinger(candles: Candle[], period = 20, k = 2): Bands {
+  const middle: LinePoint[] = [];
+  const upper: LinePoint[] = [];
+  const lower: LinePoint[] = [];
+  if (candles.length < period) return { middle, upper, lower };
+  for (let i = period - 1; i < candles.length; i++) {
+    let sum = 0;
+    for (let j = i - period + 1; j <= i; j++) sum += candles[j].close;
+    const mean = sum / period;
+    let variance = 0;
+    for (let j = i - period + 1; j <= i; j++) {
+      const d = candles[j].close - mean;
+      variance += d * d;
+    }
+    const sd = Math.sqrt(variance / period);
+    const time = candles[i].time;
+    middle.push({ time, value: mean });
+    upper.push({ time, value: mean + k * sd });
+    lower.push({ time, value: mean - k * sd });
+  }
+  return { middle, upper, lower };
+}
+
+/** SMA over volume (for the volume MA line). */
+export function volumeSma(candles: Candle[], period: number): LinePoint[] {
+  if (period <= 0 || candles.length < period) return [];
+  const out: LinePoint[] = [];
+  let sum = 0;
+  for (let i = 0; i < candles.length; i++) {
+    sum += candles[i].volume;
+    if (i >= period) sum -= candles[i - period].volume;
+    if (i >= period - 1)
+      out.push({ time: candles[i].time, value: sum / period });
+  }
+  return out;
+}
+
+export function volumeSmaLast(
+  candles: Candle[],
+  period: number,
+): number | null {
+  const n = candles.length;
+  if (period <= 0 || n < period) return null;
+  let sum = 0;
+  for (let i = n - period; i < n; i++) sum += candles[i].volume;
+  return sum / period;
 }
 
 /** Simple moving average of closes; emits points once warmed up (i >= period-1). */

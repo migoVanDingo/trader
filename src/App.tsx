@@ -19,9 +19,12 @@ export default function App() {
     timeframeId,
     theme,
     ma,
+    ema,
+    showBollinger,
     showRSI,
     rsiPeriod,
     showVolume,
+    showVolumeMa,
     favorites,
     setSymbol,
     setTimeframe,
@@ -43,9 +46,12 @@ export default function App() {
 
   const indicators: IndicatorConfig = {
     ma,
+    ema,
+    bollinger: showBollinger,
     rsi: showRSI,
     rsiPeriod,
     volume: showVolume,
+    volumeMa: showVolumeMa,
   };
 
   return (

@@ -9,6 +9,9 @@ import {
   smaLast,
   rsiState,
   rsiAdvance,
+  bollinger,
+  volumeSma,
+  volumeSmaLast,
 } from "./indicators";
 
 /** Build candles from a list of closes (OHLC flattened to the close). */
@@ -20,6 +23,18 @@ function candles(closes: number[]): Candle[] {
     low: c,
     close: c,
     volume: 1,
+  }));
+}
+
+/** Build candles from a list of volumes (close fixed). */
+function candlesWithVolume(vols: number[]): Candle[] {
+  return vols.map((v, i) => ({
+    time: (i * 60) as UTCTimestamp,
+    open: 1,
+    high: 1,
+    low: 1,
+    close: 1,
+    volume: v,
   }));
 }
 
@@ -150,5 +165,41 @@ describe("mergeCandle", () => {
   it("handles an empty seed", () => {
     const live = candles([5])[0];
     expect(mergeCandle([], live)).toEqual([live]);
+  });
+});
+
+describe("bollinger", () => {
+  it("returns empty when not enough data", () => {
+    expect(bollinger(candles([1, 2]), 3)).toEqual({
+      middle: [],
+      upper: [],
+      lower: [],
+    });
+  });
+
+  it("computes mean ± k·σ per window", () => {
+    const b = bollinger(candles([2, 4, 6, 8]), 2, 2);
+    expect(b.middle.map((p) => p.value)).toEqual([3, 5, 7]);
+    expect(b.upper.map((p) => p.value)).toEqual([5, 7, 9]);
+    expect(b.lower.map((p) => p.value)).toEqual([1, 3, 5]);
+  });
+
+  it("collapses to the mean for constant input", () => {
+    const b = bollinger(candles([5, 5, 5, 5]), 2, 2);
+    expect(b.upper).toEqual(b.middle);
+    expect(b.lower).toEqual(b.middle);
+  });
+});
+
+describe("volumeSma", () => {
+  it("averages volume over the window", () => {
+    const out = volumeSma(candlesWithVolume([2, 4, 6, 8]), 2);
+    expect(out.map((p) => p.value)).toEqual([3, 5, 7]);
+  });
+
+  it("volumeSmaLast matches the final volumeSma value", () => {
+    const c = candlesWithVolume([1, 3, 5, 7, 9]);
+    const full = volumeSma(c, 3);
+    expect(volumeSmaLast(c, 3)).toBeCloseTo(full[full.length - 1].value, 10);
   });
 });

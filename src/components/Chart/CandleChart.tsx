@@ -1,10 +1,20 @@
 import { useRef } from "react";
 import type { Candle } from "../../types";
 import type { ThemeName } from "../../theme";
-import type { IndicatorConfig } from "../../lib/indicators";
+import {
+  sma,
+  smaLast,
+  ema,
+  emaLast,
+  maColor,
+  emaColor,
+  type IndicatorConfig,
+} from "../../lib/indicators";
 import { useChart } from "../../hooks/chart/useChart";
 import { useCandleData } from "../../hooks/chart/useCandleData";
-import { useMaSeries } from "../../hooks/chart/useMaSeries";
+import { useMaLines } from "../../hooks/chart/useMaLines";
+import { useBollingerBands } from "../../hooks/chart/useBollingerBands";
+import { useVolumeMa } from "../../hooks/chart/useVolumeMa";
 import { useRsiPane } from "../../hooks/chart/useRsiPane";
 import { useCrosshair } from "../../hooks/chart/useCrosshair";
 import { OhlcLegend } from "./OhlcLegend";
@@ -21,7 +31,20 @@ export function CandleChart({ candles, update, theme, indicators }: Props) {
 
   const refs = useChart(containerRef, theme);
   useCandleData(refs, candles, update, theme, indicators.volume);
-  useMaSeries(refs, candles, update, indicators.ma);
+  useMaLines(refs, candles, update, {
+    periods: indicators.ma,
+    color: maColor,
+    compute: sma,
+    computeLast: smaLast,
+  });
+  useMaLines(refs, candles, update, {
+    periods: indicators.ema,
+    color: emaColor,
+    compute: ema,
+    computeLast: emaLast,
+  });
+  useBollingerBands(refs, candles, update, indicators.bollinger);
+  useVolumeMa(refs, candles, update, indicators.volumeMa);
   useRsiPane(
     refs,
     candles,

@@ -140,8 +140,11 @@ composes four focused hooks, each owning one concern of the chart:
 - **`useCandleData(refs, candles, update, theme, showVolume)`** — seeds candle &
   volume data (`setData` + `fitContent`), volume visibility, and live ticks for
   candle + volume.
-- **`useMaSeries(refs, candles, update, periods)`** — reconciles MA line series to
-  the active set, seeds each, and pushes the live tip.
+- **`useMaLines(refs, candles, update, spec)`** — generic moving-average overlay:
+  reconciles a set of line series to `spec.periods`, seeds each, pushes the live
+  tip. Used for both **SMA** and **EMA** (the kind is injected via `spec`).
+- **`useBollingerBands(refs, candles, update, enabled)`** — three overlay lines
+  (SMA ± k·σ). **`useVolumeMa(...)`** — a moving average on the volume scale.
 - **`useRsiPane(refs, candles, update, enabled, period, theme)`** — the RSI line
   in **pane index 1** (a real second pane, a v5 feature) with dashed 70/30
   reference lines sized via `setStretchFactor`; create/destroy + live tip.

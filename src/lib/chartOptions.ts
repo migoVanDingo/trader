@@ -2,6 +2,7 @@
 // No chart instance here — these just produce plain config the hooks apply.
 import {
   CrosshairMode,
+  LineStyle,
   type DeepPartial,
   type ChartOptions,
   type CandlestickSeriesPartialOptions,
@@ -9,6 +10,7 @@ import {
   type HistogramData,
   type UTCTimestamp,
 } from "lightweight-charts";
+import { VOLUME_PRICE_SCALE_ID } from "./chartConstants";
 import type { ChartTheme } from "../theme";
 import type { Candle } from "../types";
 
@@ -65,6 +67,33 @@ export function rsiLineOptions(color: string): LineSeriesPartialOptions {
     lineWidth: 2,
     priceLineVisible: false,
     lastValueVisible: false,
+  };
+}
+
+/** Bollinger band line — middle solid, upper/lower dashed. */
+export function bandLineOptions(
+  color: string,
+  dashed: boolean,
+): LineSeriesPartialOptions {
+  return {
+    color,
+    lineWidth: 1,
+    lineStyle: dashed ? LineStyle.Dashed : LineStyle.Solid,
+    priceLineVisible: false,
+    lastValueVisible: false,
+    crosshairMarkerVisible: false,
+  };
+}
+
+/** Volume MA line — lives on the overlaid volume price scale. */
+export function volumeMaLineOptions(color: string): LineSeriesPartialOptions {
+  return {
+    color,
+    lineWidth: 1,
+    priceScaleId: VOLUME_PRICE_SCALE_ID,
+    priceLineVisible: false,
+    lastValueVisible: false,
+    crosshairMarkerVisible: false,
   };
 }
 

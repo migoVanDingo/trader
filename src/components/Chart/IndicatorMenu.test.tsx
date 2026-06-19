@@ -33,7 +33,16 @@ describe("IndicatorMenu", () => {
     render(<IndicatorMenu />);
 
     await user.click(screen.getByRole("button", { name: /indicators/i }));
-    await user.click(screen.getByRole("checkbox", { name: /^MA 20$/ }));
+    await user.click(screen.getByRole("checkbox", { name: /^SMA 20$/ }));
     expect(useStore.getState().ma).not.toContain(20);
+  });
+
+  it("toggles an EMA period on", async () => {
+    const user = userEvent.setup();
+    render(<IndicatorMenu />);
+
+    await user.click(screen.getByRole("button", { name: /indicators/i }));
+    await user.click(screen.getByRole("checkbox", { name: /^EMA 9$/ }));
+    expect(useStore.getState().ema).toContain(9);
   });
 });

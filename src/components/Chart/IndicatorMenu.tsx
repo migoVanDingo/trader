@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import { MA_PERIODS, maColor } from "../../lib/indicators";
+import {
+  MA_PERIODS,
+  EMA_PERIODS,
+  maColor,
+  emaColor,
+} from "../../lib/indicators";
 import { useStore } from "../../state/store";
 
 export function IndicatorMenu() {
-  const { ma, showRSI, showVolume, toggleMA, toggleRSI, toggleVolume } =
-    useStore();
+  const s = useStore();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -20,7 +24,13 @@ export function IndicatorMenu() {
     return () => document.removeEventListener("mousedown", onDown);
   }, [open]);
 
-  const activeCount = ma.length + (showRSI ? 1 : 0) + (showVolume ? 1 : 0);
+  const activeCount =
+    s.ma.length +
+    s.ema.length +
+    (s.showBollinger ? 1 : 0) +
+    (s.showVolume ? 1 : 0) +
+    (s.showVolumeMa ? 1 : 0) +
+    (s.showRSI ? 1 : 0);
 
   return (
     <div className="indicator-menu" ref={ref}>
@@ -38,20 +48,45 @@ export function IndicatorMenu() {
 
       {open && (
         <div className="indicator-panel" role="menu">
-          <div className="indicator-group-label">Overlays</div>
-          <Toggle checked={showVolume} onChange={toggleVolume} label="Volume" />
+          <div className="indicator-group-label">Volume</div>
+          <Toggle
+            checked={s.showVolume}
+            onChange={s.toggleVolume}
+            label="Volume"
+          />
+          <Toggle
+            checked={s.showVolumeMa}
+            onChange={s.toggleVolumeMa}
+            label="Volume MA (20)"
+          />
+
+          <div className="indicator-group-label">Moving averages</div>
           {MA_PERIODS.map((p) => (
             <Toggle
-              key={p}
-              checked={ma.includes(p)}
-              onChange={() => toggleMA(p)}
-              label={`MA ${p}`}
+              key={`ma${p}`}
+              checked={s.ma.includes(p)}
+              onChange={() => s.toggleMA(p)}
+              label={`SMA ${p}`}
               swatch={maColor(p)}
             />
           ))}
+          {EMA_PERIODS.map((p) => (
+            <Toggle
+              key={`ema${p}`}
+              checked={s.ema.includes(p)}
+              onChange={() => s.toggleEMA(p)}
+              label={`EMA ${p}`}
+              swatch={emaColor(p)}
+            />
+          ))}
+          <Toggle
+            checked={s.showBollinger}
+            onChange={s.toggleBollinger}
+            label="Bollinger (20, 2)"
+          />
 
           <div className="indicator-group-label">Oscillators</div>
-          <Toggle checked={showRSI} onChange={toggleRSI} label="RSI (14)" />
+          <Toggle checked={s.showRSI} onChange={s.toggleRSI} label="RSI (14)" />
         </div>
       )}
     </div>

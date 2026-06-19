@@ -6,23 +6,33 @@ import {
   type UTCTimestamp,
 } from "lightweight-charts";
 import type { Candle } from "../../types";
-import { sma, smaLast, maColor, mergeCandle } from "../../lib/indicators";
+import { mergeCandle, type LinePoint } from "../../lib/indicators";
 import { maLineOptions } from "../../lib/chartOptions";
 import { useLatestRef } from "../useLatestRef";
 import type { ChartRefs } from "./useChart";
 
-/** Reconciles MA overlay line series to the active period set; seeds + live tip. */
-export function useMaSeries(
+export interface MaLineSpec {
+  periods: number[];
+  color: (period: number) => string;
+  compute: (candles: Candle[], period: number) => LinePoint[];
+  computeLast: (merged: Candle[], period: number) => number | null;
+}
+
+/**
+ * Reconciles a set of moving-average overlay lines to `spec.periods`, seeds each,
+ * and pushes the live tip. Generic over the average kind (SMA, EMA, …) via spec.
+ */
+export function useMaLines(
   refs: ChartRefs,
   candles: Candle[],
   update: Candle | null | undefined,
-  periods: number[],
+  spec: MaLineSpec,
 ) {
   const { chartRef } = refs;
+  const { periods, color, compute, computeLast } = spec;
   const seriesRef = useRef<Map<number, ISeriesApi<"Line">>>(new Map());
   const candlesRef = useLatestRef(candles);
 
-  // Add/remove series to match `periods`, then (re)seed their data.
   useEffect(() => {
     const chart = chartRef.current;
     if (!chart) return;
@@ -38,26 +48,24 @@ export function useMaSeries(
     for (const period of periods) {
       let s = series.get(period);
       if (!s) {
-        s = chart.addSeries(LineSeries, maLineOptions(maColor(period)));
+        s = chart.addSeries(LineSeries, maLineOptions(color(period)));
         series.set(period, s);
       }
-      s.setData(sma(candles, period) as LineData<UTCTimestamp>[]);
+      s.setData(compute(candles, period) as LineData<UTCTimestamp>[]);
     }
-  }, [candles, periods, chartRef]);
+  }, [candles, periods, chartRef, color, compute]);
 
-  // Live tip per active MA — O(period) via smaLast, no full recompute.
   useEffect(() => {
     if (!update) return;
     const merged = mergeCandle(candlesRef.current, update);
     seriesRef.current.forEach((s, period) => {
-      const value = smaLast(merged, period);
+      const value = computeLast(merged, period);
       if (value != null) {
         s.update({ time: update.time, value } as LineData<UTCTimestamp>);
       }
     });
-  }, [update, candlesRef]);
+  }, [update, candlesRef, computeLast]);
 
-  // On unmount, drop references (chart.remove() disposes the series themselves).
   useEffect(() => {
     const series = seriesRef.current;
     return () => series.clear();
