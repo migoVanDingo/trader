@@ -229,3 +229,11 @@ area. Theme choice is persisted and defaults to the OS `prefers-color-scheme`.
 - **`scripts/check-file-sizes.mjs`** enforces the 600-line cap (`npm run
 check:size`, also in `prebuild`).
 - **Husky pre-commit** runs `check:size && lint && test`.
+
+## 9. Accessibility & shortcuts
+
+- **Keyboard shortcuts** (`useHotkeys`): digits 1–9/0 select a timeframe, `t`
+  toggles theme; ignored while typing or with modifiers.
+- **A11y:** `:focus-visible` outlines, `prefers-reduced-motion` honored, and the
+  canvas chart carries an `aria-label`. (Full ARIA on the toolbar/menus is a
+  remaining polish item.)

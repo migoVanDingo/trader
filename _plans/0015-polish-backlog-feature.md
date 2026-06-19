@@ -11,15 +11,16 @@ them forward whenever they're worth it.
 
 ## Tasks
 
-- [ ] **1 Keyboard shortcuts** — timeframe hotkeys, symbol quick-switch (open
-      0005's search), theme toggle. Centralize in a `useHotkeys` hook.
+- [x] **1 Keyboard shortcuts** — `useHotkeys`: 1–9/0 timeframes, `t` theme.
+      _Remaining:_ symbol quick-switch (open 0005's search).
 - [ ] **2 Per-symbol price precision** — use exchangeInfo `tickSize` (from 0005)
       instead of the heuristic in `lib/format.ts`; thread precision to the chart +
       header.
 - [ ] **3 Multiple quote currencies** — extend the symbol model beyond USDT (USDC,
       BTC-quoted pairs); update `baseAsset`/labels + favorites.
-- [ ] **4 Accessibility pass** — focus states, ARIA on the chart toolbar/menus,
-      `prefers-reduced-motion`, color-contrast check on both themes.
+- [x] **4 Accessibility pass (first cut)** — focus-visible outlines,
+      `prefers-reduced-motion`, chart `aria-label`. _Remaining:_ full ARIA on the
+      toolbar/menus, color-contrast audit.
 - [ ] **5 Drawing tools** — trend lines / horizontal levels via lightweight-charts
       v5 primitives. Largest item; schedule last.
 

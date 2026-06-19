@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useStore } from "./state/store";
 import { useKlines } from "./hooks/useKlines";
 import { useTicker } from "./hooks/useTicker";
-import { getTimeframe } from "./lib/timeframes";
+import { useHotkeys } from "./hooks/useHotkeys";
+import { getTimeframe, TIMEFRAMES } from "./lib/timeframes";
 import { CandleChart } from "./components/Chart/CandleChart";
 import { TimeframeBar } from "./components/Chart/TimeframeBar";
 import { IndicatorMenu } from "./components/Chart/IndicatorMenu";
@@ -46,6 +47,16 @@ export default function App() {
   // Watch live prices for any pending price alerts.
   useAlertWatcher();
 
+  // Keyboard shortcuts: 1–9/0 pick a timeframe, "t" toggles theme.
+  const onTimeframeIndex = useCallback(
+    (i: number) => {
+      const tf = TIMEFRAMES[i];
+      if (tf) setTimeframe(tf.id);
+    },
+    [setTimeframe],
+  );
+  useHotkeys({ onTimeframeIndex, onToggleTheme: toggleTheme });
+
   const tf = getTimeframe(timeframeId);
   const { candles, lastUpdate, loading, error } = useKlines(
     symbol,
@@ -88,7 +99,11 @@ export default function App() {
             <IndicatorMenu />
           </div>
 
-          <div className="chart-wrap">
+          <div
+            className="chart-wrap"
+            role="img"
+            aria-label={`${symbol} price chart`}
+          >
             {error ? (
               <div className="chart-message error">
                 <p>Couldn't load chart data.</p>

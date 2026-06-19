@@ -17,7 +17,8 @@ REST + WebSocket API (no API key needed).
   header, over WebSocket.
 - **Order book** (live depth), a **recent-trades tape**, and **price alerts**
   (browser notification + toast) in a collapsible side panel.
-- **Light / dark theme** (persisted) and a connection-status badge.
+- **Light / dark theme** (persisted), a connection-status badge, and keyboard
+  shortcuts (1–9/0 timeframes, `t` theme).
 - Preferences (symbol, timeframe, indicators, theme) persist across reloads.
 
 ## Getting started

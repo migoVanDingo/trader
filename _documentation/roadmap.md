@@ -36,13 +36,15 @@ where the app goes from "works" to "feels like a real trading app."
 
 ## Polish backlog
 
-- Connection-status badge (reconnecting / offline).
-- Keyboard shortcuts (timeframe hotkeys, symbol quick-switch).
-- Drawing tools (trend lines, horizontal levels).
+- ✅ Connection-status badge (plan 0002).
+- ✅ Keyboard shortcuts — 1–9/0 timeframes, `t` theme (plan 0015). _Remaining:_
+  symbol quick-switch.
+- ✅ Accessibility first pass — focus-visible outlines, reduced-motion, chart
+  aria-label (plan 0015). _Remaining:_ full ARIA on toolbar/menus.
+- Drawing tools (trend lines, horizontal levels). _(larger — own plan when picked up)_
 - Multiple quote currencies (USDC, BTC-quoted pairs).
-- Accessibility pass (focus states, ARIA on the chart toolbar, reduced-motion).
 - Per-symbol price precision from `exchangeInfo` tick size (instead of the
-  heuristic in `format.ts`).
+  heuristic in `format.ts`) — `tickSize` is already fetched in `useMarkets`.
 
 ## Suggested sequence
 

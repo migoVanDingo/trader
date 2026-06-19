@@ -31,3 +31,18 @@ body {
   flex-direction: column;
   height: 100%;
 }
+
+/* ---- Accessibility ---- */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.001ms !important;
+    animation-duration: 0.001ms !important;
+  }
+}

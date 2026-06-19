@@ -44,7 +44,8 @@ are fallbacks — the `api/` layer isolates this).
 src/
   api/          binance.ts (REST), ws.ts (WebSocket manager + connection status)
   hooks/        useKlines, useTicker, useWatchlist, useMarkets, useOrderBook,
-                useTrades, useSparklines, useAlertWatcher, useLatestRef
+                useTrades, useSparklines, useAlertWatcher, useHotkeys,
+                useLatestRef
     chart/      useChart, useCandleData, useMaLines, useBollingerBands,
                 useVolumeMa, useRsiPane, useMacdPane, useCrosshair
   lib/          indicators, timeframes, symbols, format, sparkline, alerts,
