@@ -5,26 +5,30 @@ How Trader is put together and how each piece works.
 ## 1. Overview
 
 Trader is a **client-only React SPA**. There is no backend — the browser talks
-directly to Binance.US for market data. State lives in memory (Zustand) plus a
-single persisted preference (theme). The app's job is:
+directly to Binance.US for market data. State lives in memory (Zustand), with
+preferences (symbol, timeframe, theme, indicators, watchlist, alerts) persisted to
+`localStorage`. The app's job is:
 
 1. Pull historical candles (REST) and stream live updates (WebSocket).
-2. Render them as a candlestick chart with volume + indicators.
-3. Let the user switch symbol, timeframe, indicators, and theme.
+2. Render them as a candlestick chart with volume + indicators, plus order book,
+   trades, and price alerts.
+3. Let the user search symbols, switch timeframe, toggle indicators, and theme.
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
 │                          React UI                              │
-│  App ─ Watchlist ─ PriceHeader ─ TimeframeBar ─ IndicatorMenu  │
-│                         CandleChart                            │
+│  App ─ SymbolSearch ─ Watchlist ─ PriceHeader ─ TimeframeBar   │
+│  IndicatorMenu ─ CandleChart ─ SidePanel(OrderBook|Trades|     │
+│  Alerts) ─ Toasts                                              │
 └───────────────┬───────────────────────────┬──────────────────┘
-                │ hooks                       │ Zustand store
-        ┌───────▼────────┐           ┌────────▼────────┐
-        │ useKlines      │           │ symbol          │
-        │ useTicker      │           │ timeframeId     │
-        │ useWatchlist   │           │ theme           │
-        └───────┬────────┘           │ ma/rsi/volume   │
-                │ api layer          └─────────────────┘
+                │ hooks                       │ Zustand stores
+        ┌───────▼─────────────┐     ┌────────▼──────────────┐
+        │ useKlines/useTicker  │     │ store (symbol, tf,    │
+        │ useWatchlist/Markets │     │   theme, indicators,  │
+        │ useOrderBook/Trades  │     │   favorites)          │
+        │ chart/* + Sparklines │     │ connection · alerts   │
+        └───────┬─────────────┘     └───────────────────────┘
+                │ api layer
         ┌───────▼─────────────────────────┐
         │ api/binance.ts (REST)           │
         │ api/ws.ts (WebSocket manager)   │

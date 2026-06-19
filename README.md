@@ -19,7 +19,8 @@ REST + WebSocket API (no API key needed).
   (browser notification + toast) in a collapsible side panel.
 - **Light / dark theme** (persisted), a connection-status badge, and keyboard
   shortcuts (1–9/0 timeframes, `t` theme).
-- Preferences (symbol, timeframe, indicators, theme) persist across reloads.
+- Preferences (symbol, timeframe, indicators, theme, watchlist, alerts) persist
+  across reloads.
 
 ## Getting started
 

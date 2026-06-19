@@ -5,16 +5,17 @@ Guidance for working in this repo. For deep architecture, see `_documentation/`.
 ## What this is
 
 **Trader** — a crypto-currency ticker web app: live candlestick charts with
-multiple timeframes, a live watchlist, technical indicators (MA / RSI / volume),
-and a light/dark theme. Client-only SPA; no backend. Market data comes from the
-public **Binance.US** REST + WebSocket API (no API key needed).
+multiple timeframes, a live watchlist, technical indicators (SMA/EMA, Bollinger,
+volume, RSI, MACD), an order book / trades tape, and price alerts. Client-only
+SPA; no backend (yet). Market data comes from the public **Binance.US** REST +
+WebSocket API (no API key needed).
 
 ## Stack
 
 - React 18 + TypeScript + Vite
 - [lightweight-charts](https://github.com/tradingview/lightweight-charts) **v5** (candles, panes)
 - Zustand for state
-- No CSS framework — plain CSS with variables (`src/index.css`)
+- No CSS framework — plain CSS with variables, split by area in `src/styles/`
 
 ## Commands
 
@@ -110,8 +111,9 @@ Build tidy and modular by default. These are hard rules, not suggestions:
   `Candle.time` is already UNIX seconds (`UTCTimestamp`).
 - Hooks own the data lifecycle (fetch + subscribe + cleanup). Components stay
   presentational and never touch sockets directly.
-- The chart is imperative; React effects in `CandleChart.tsx` bridge prop changes
-  to lightweight-charts calls. Seed data uses `setData`; live ticks use `update`.
+- The chart is imperative; `CandleChart.tsx` is orchestration-only, composing the
+  `hooks/chart/` hooks that bridge prop changes to lightweight-charts. Seed data
+  uses `setData`; live ticks use `update`.
 - Match the existing plain-CSS style (BEM-ish class names, CSS variables for color).
 
 ## Plans & docs
