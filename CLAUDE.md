@@ -45,7 +45,7 @@ src/
   api/          binance.ts (REST), ws.ts (WebSocket manager + connection status)
   hooks/        useKlines, useTicker, useWatchlist, useMarkets, useLatestRef
     chart/      useChart, useCandleData, useMaLines, useBollingerBands,
-                useVolumeMa, useRsiPane, useCrosshair
+                useVolumeMa, useRsiPane, useMacdPane, useCrosshair
   lib/          indicators, timeframes, symbols, format,
                 chartOptions, chartConstants  (pure logic + config)  + *.test.ts
   components/   Chart/ (CandleChart, OhlcLegend, TimeframeBar, IndicatorMenu),

@@ -15,6 +15,7 @@ export interface IndicatorConfig {
   volumeMa: boolean;
   rsi: boolean;
   rsiPeriod: number;
+  macd: boolean;
 }
 
 /** MA periods offered in the menu, with stable (theme-independent) colors. */
@@ -135,6 +136,61 @@ export function ema(candles: Candle[], period: number): LinePoint[] {
     out.push({ time: candles[i].time, value: prev });
   }
   return out;
+}
+
+/** EMA over an arbitrary point series (used for the MACD signal line). */
+function emaOverPoints(points: LinePoint[], period: number): LinePoint[] {
+  if (period <= 0 || points.length < period) return [];
+  const k = 2 / (period + 1);
+  let prev = 0;
+  for (let i = 0; i < period; i++) prev += points[i].value;
+  prev /= period;
+  const out: LinePoint[] = [{ time: points[period - 1].time, value: prev }];
+  for (let i = period; i < points.length; i++) {
+    prev = points[i].value * k + prev * (1 - k);
+    out.push({ time: points[i].time, value: prev });
+  }
+  return out;
+}
+
+export interface MacdResult {
+  macd: LinePoint[];
+  signal: LinePoint[];
+  histogram: LinePoint[];
+}
+
+/**
+ * MACD: EMA(fast) − EMA(slow); signal = EMA(signalPeriod) of the MACD line;
+ * histogram = MACD − signal. Series are aligned by time.
+ */
+export function macd(
+  candles: Candle[],
+  fast = 12,
+  slow = 26,
+  signalPeriod = 9,
+): MacdResult {
+  const closes: LinePoint[] = candles.map((c) => ({
+    time: c.time,
+    value: c.close,
+  }));
+  const emaFast = emaOverPoints(closes, fast);
+  const emaSlow = emaOverPoints(closes, slow);
+  const slowMap = new Map(emaSlow.map((p) => [p.time, p.value]));
+
+  const macdLine: LinePoint[] = [];
+  for (const p of emaFast) {
+    const s = slowMap.get(p.time);
+    if (s !== undefined) macdLine.push({ time: p.time, value: p.value - s });
+  }
+  const signal = emaOverPoints(macdLine, signalPeriod);
+  const sigMap = new Map(signal.map((p) => [p.time, p.value]));
+
+  const histogram: LinePoint[] = [];
+  for (const p of macdLine) {
+    const sg = sigMap.get(p.time);
+    if (sg !== undefined) histogram.push({ time: p.time, value: p.value - sg });
+  }
+  return { macd: macdLine, signal, histogram };
 }
 
 /**

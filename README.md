@@ -9,8 +9,8 @@ REST + WebSocket API (no API key needed).
 - **Live candlestick charts** (TradingView lightweight-charts v5) with a volume
   histogram and a crosshair OHLC legend.
 - **10 timeframes** — 1m, 5m, 15m, 1H, 4H, 1D, 1W, plus 1M / 1Y / All ranges.
-- **Indicators** — SMA/EMA overlays, Bollinger Bands, a volume MA, and RSI (own
-  pane), all toggleable and live.
+- **Indicators** — SMA/EMA overlays, Bollinger Bands, a volume MA, and RSI + MACD
+  (each in its own pane), all toggleable and live.
 - **Symbol search** across every USDT pair (`exchangeInfo`); star to add to the
   watchlist.
 - **Live watchlist** of your favorite coins and a 24h price header, over WebSocket.

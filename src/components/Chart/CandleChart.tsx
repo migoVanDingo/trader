@@ -16,6 +16,7 @@ import { useMaLines } from "../../hooks/chart/useMaLines";
 import { useBollingerBands } from "../../hooks/chart/useBollingerBands";
 import { useVolumeMa } from "../../hooks/chart/useVolumeMa";
 import { useRsiPane } from "../../hooks/chart/useRsiPane";
+import { useMacdPane } from "../../hooks/chart/useMacdPane";
 import { useCrosshair } from "../../hooks/chart/useCrosshair";
 import { OhlcLegend } from "./OhlcLegend";
 
@@ -53,6 +54,7 @@ export function CandleChart({ candles, update, theme, indicators }: Props) {
     indicators.rsiPeriod,
     theme,
   );
+  useMacdPane(refs, candles, update, indicators.macd, indicators.rsi, theme);
   const hovered = useCrosshair(refs);
 
   // Hovered bar, else the live/forming candle, else the latest seeded candle.

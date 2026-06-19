@@ -148,6 +148,9 @@ composes four focused hooks, each owning one concern of the chart:
 - **`useRsiPane(refs, candles, update, enabled, period, theme)`** — the RSI line
   in **pane index 1** (a real second pane, a v5 feature) with dashed 70/30
   reference lines sized via `setStretchFactor`; create/destroy + live tip.
+- **`useMacdPane(refs, candles, update, enabled, rsiEnabled, theme)`** — MACD
+  (line + signal + histogram) in its own pane. Pane index is **dynamic**
+  (RSI=1, so MACD=2 when RSI is on else 1) to avoid empty panes.
 - **`useCrosshair(refs)`** — subscribes to `subscribeCrosshairMove` and returns the
   hovered candle's OHLCV (or `null`); `OhlcLegend` renders it, falling back to the
   live/latest candle when not hovering.

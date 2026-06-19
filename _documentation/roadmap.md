@@ -8,13 +8,8 @@ where the app goes from "works" to "feels like a real trading app."
 
 - ✅ **Crosshair OHLC legend** (plan 0004) — `useCrosshair` + `OhlcLegend`.
 - ✅ **Symbol search / dynamic markets** (plan 0005) — `exchangeInfo` + favorites.
+- ✅ **More indicators** (plan 0006) — EMA, Bollinger Bands, volume MA, MACD pane.
 - ✅ **Persist user preferences** (plan 0002) — Zustand `persist`.
-
-## Top picks (highest value, reasonable effort)
-
-4. **More indicators.** MACD and Bollinger Bands are the obvious next two (EMA and
-   volume-MA are nearly free given the existing `ema()`). MACD needs a second
-   pane — the RSI pane work already proves that path.
 
 ## Market depth & activity
 

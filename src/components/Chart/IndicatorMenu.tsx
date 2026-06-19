@@ -30,7 +30,8 @@ export function IndicatorMenu() {
     (s.showBollinger ? 1 : 0) +
     (s.showVolume ? 1 : 0) +
     (s.showVolumeMa ? 1 : 0) +
-    (s.showRSI ? 1 : 0);
+    (s.showRSI ? 1 : 0) +
+    (s.showMACD ? 1 : 0);
 
   return (
     <div className="indicator-menu" ref={ref}>
@@ -87,6 +88,11 @@ export function IndicatorMenu() {
 
           <div className="indicator-group-label">Oscillators</div>
           <Toggle checked={s.showRSI} onChange={s.toggleRSI} label="RSI (14)" />
+          <Toggle
+            checked={s.showMACD}
+            onChange={s.toggleMACD}
+            label="MACD (12, 26, 9)"
+          />
         </div>
       )}
     </div>

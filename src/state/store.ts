@@ -23,6 +23,7 @@ interface AppState {
   rsiPeriod: number;
   showVolume: boolean;
   showVolumeMa: boolean;
+  showMACD: boolean;
   // Watchlist:
   favorites: string[];
   setSymbol: (symbol: string) => void;
@@ -34,6 +35,7 @@ interface AppState {
   toggleRSI: () => void;
   toggleVolume: () => void;
   toggleVolumeMa: () => void;
+  toggleMACD: () => void;
   toggleFavorite: (symbol: string) => void;
 }
 
@@ -50,6 +52,7 @@ export const useStore = create<AppState>()(
       rsiPeriod: 14,
       showVolume: true,
       showVolumeMa: false,
+      showMACD: false,
       favorites: WATCHLIST_SYMBOLS,
       setSymbol: (symbol) => set({ symbol }),
       setTimeframe: (timeframeId) => set({ timeframeId }),
@@ -71,6 +74,7 @@ export const useStore = create<AppState>()(
       toggleRSI: () => set((s) => ({ showRSI: !s.showRSI })),
       toggleVolume: () => set((s) => ({ showVolume: !s.showVolume })),
       toggleVolumeMa: () => set((s) => ({ showVolumeMa: !s.showVolumeMa })),
+      toggleMACD: () => set((s) => ({ showMACD: !s.showMACD })),
       toggleFavorite: (symbol) =>
         set((s) => ({
           favorites: s.favorites.includes(symbol)
@@ -92,6 +96,7 @@ export const useStore = create<AppState>()(
         rsiPeriod: s.rsiPeriod,
         showVolume: s.showVolume,
         showVolumeMa: s.showVolumeMa,
+        showMACD: s.showMACD,
         favorites: s.favorites,
       }),
     },

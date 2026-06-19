@@ -25,6 +25,7 @@ export default function App() {
     rsiPeriod,
     showVolume,
     showVolumeMa,
+    showMACD,
     favorites,
     setSymbol,
     setTimeframe,
@@ -52,6 +53,7 @@ export default function App() {
     rsiPeriod,
     volume: showVolume,
     volumeMa: showVolumeMa,
+    macd: showMACD,
   };
 
   return (

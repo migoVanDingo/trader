@@ -12,6 +12,7 @@ import {
   bollinger,
   volumeSma,
   volumeSmaLast,
+  macd,
 } from "./indicators";
 
 /** Build candles from a list of closes (OHLC flattened to the close). */
@@ -201,5 +202,33 @@ describe("volumeSma", () => {
     const c = candlesWithVolume([1, 3, 5, 7, 9]);
     const full = volumeSma(c, 3);
     expect(volumeSmaLast(c, 3)).toBeCloseTo(full[full.length - 1].value, 10);
+  });
+});
+
+describe("macd", () => {
+  it("histogram equals macd − signal at matching times; lengths line up", () => {
+    const closes = Array.from(
+      { length: 60 },
+      (_, i) => 100 + Math.sin(i / 3) * 10,
+    );
+    const c = candles(closes);
+    const r = macd(c);
+    expect(r.signal.length).toBe(r.macd.length - 9 + 1);
+    expect(r.histogram.length).toBe(r.signal.length);
+    const macdMap = new Map(r.macd.map((p) => [p.time, p.value]));
+    const sigMap = new Map(r.signal.map((p) => [p.time, p.value]));
+    for (const h of r.histogram) {
+      expect(h.value).toBeCloseTo(
+        macdMap.get(h.time)! - sigMap.get(h.time)!,
+        8,
+      );
+    }
+  });
+
+  it("returns empty series when not enough data", () => {
+    const r = macd(candles([1, 2, 3]));
+    expect(r.macd).toEqual([]);
+    expect(r.signal).toEqual([]);
+    expect(r.histogram).toEqual([]);
   });
 });
