@@ -1,0 +1,71 @@
+.price-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.price-symbol {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.price-base {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.price-quote {
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.price-main {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.price-last {
+  font-size: 22px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.price-change {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.price-change.pos {
+  color: var(--pos);
+}
+
+.price-change.neg {
+  color: var(--neg);
+}
+
+.price-stats {
+  display: flex;
+  gap: 24px;
+  margin-left: auto;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-value {
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,72 @@
+.watchlist {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--bg-elevated);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+}
+
+.watchlist-head {
+  padding: 14px 16px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-dim);
+}
+
+.watchlist-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.watch-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  column-gap: 8px;
+  width: 100%;
+  padding: 10px 16px;
+  background: transparent;
+  border: none;
+  border-left: 2px solid transparent;
+  cursor: pointer;
+  text-align: left;
+  color: var(--text);
+}
+
+.watch-row:hover {
+  background: var(--bg-input);
+}
+
+.watch-row.active {
+  background: var(--active-bg);
+  border-left-color: var(--accent);
+}
+
+.watch-sym {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.watch-price {
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.watch-chg {
+  grid-column: 2;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: right;
+}
+
+.watch-chg.pos {
+  color: var(--pos);
+}
+
+.watch-chg.neg {
+  color: var(--neg);
+}

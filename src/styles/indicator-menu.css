@@ -1,0 +1,82 @@
+.indicator-menu {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.indicator-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-input);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.indicator-trigger.open {
+  border-color: var(--accent);
+}
+
+.indicator-count {
+  background: var(--accent);
+  color: #fff;
+  border-radius: 10px;
+  padding: 0 6px;
+  font-size: 11px;
+  line-height: 16px;
+}
+
+.indicator-caret {
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+.indicator-panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 20;
+  min-width: 170px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.indicator-group-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-dim);
+  padding: 8px 8px 4px;
+}
+
+.indicator-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.indicator-item:hover {
+  background: var(--bg-input);
+}
+
+.indicator-item input {
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.indicator-swatch {
+  width: 12px;
+  height: 3px;
+  border-radius: 2px;
+}

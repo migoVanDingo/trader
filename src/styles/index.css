@@ -1,0 +1,10 @@
+/* Entry stylesheet — imports each concern. Keep per-file styles small and
+   scoped to one area (see CLAUDE.md → modularity). */
+@import "./base.css";
+@import "./topbar.css";
+@import "./layout.css";
+@import "./watchlist.css";
+@import "./price-header.css";
+@import "./timeframe-bar.css";
+@import "./indicator-menu.css";
+@import "./chart.css";
