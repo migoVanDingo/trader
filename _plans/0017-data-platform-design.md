@@ -91,6 +91,10 @@ whether an edge exists and why,"* not a P&L number.
 
 ## Dependency
 
-Blocked on **bbv2** reaching a steady state (topics → sources → ingestion →
-consumer API). See the bbv2 repo's `_plans`. Per current direction we **build
-bbv2 first**, then return here starting with the kline collector.
+Blocked on **bbv2** reaching a steady state. Progress: ingestion core (bbv2
+0002) and the **consumer API (bbv2 0003) are live** — trader will read news via
+`GET /items?topic=<slug>&since=<fetched_at>&limit=` with a `Bearer` service-token
+(scoped to crypto/markets/geopolitics), checkpointing the returned `next_since`.
+Still pending in bbv2 before we return here: agent source discovery, multi-user,
+and a curated set of markets/geopolitics sources. Per current direction we
+**finish bbv2 first**, then start trader's kline collector.
