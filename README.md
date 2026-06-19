@@ -11,7 +11,9 @@ REST + WebSocket API (no API key needed).
 - **10 timeframes** — 1m, 5m, 15m, 1H, 4H, 1D, 1W, plus 1M / 1Y / All ranges.
 - **Indicators** — moving averages (overlay) and RSI (own pane), toggleable; all
   update live.
-- **Live watchlist** of multiple coins and a 24h price header, over WebSocket.
+- **Symbol search** across every USDT pair (`exchangeInfo`); star to add to the
+  watchlist.
+- **Live watchlist** of your favorite coins and a 24h price header, over WebSocket.
 - **Light / dark theme** (persisted) and a connection-status badge.
 - Preferences (symbol, timeframe, indicators, theme) persist across reloads.
 

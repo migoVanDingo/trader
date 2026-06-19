@@ -3,7 +3,6 @@ import { useStore } from "./state/store";
 import { useKlines } from "./hooks/useKlines";
 import { useTicker } from "./hooks/useTicker";
 import { getTimeframe } from "./lib/timeframes";
-import { WATCHLIST_SYMBOLS } from "./lib/symbols";
 import { CandleChart } from "./components/Chart/CandleChart";
 import { TimeframeBar } from "./components/Chart/TimeframeBar";
 import { IndicatorMenu } from "./components/Chart/IndicatorMenu";
@@ -11,6 +10,7 @@ import { PriceHeader } from "./components/PriceHeader";
 import { Watchlist } from "./components/Watchlist/Watchlist";
 import { ThemeToggle } from "./components/ThemeToggle";
 import { ConnectionBadge } from "./components/ConnectionBadge";
+import { SymbolSearch } from "./components/SymbolSearch";
 import type { IndicatorConfig } from "./lib/indicators";
 
 export default function App() {
@@ -22,6 +22,7 @@ export default function App() {
     showRSI,
     rsiPeriod,
     showVolume,
+    favorites,
     setSymbol,
     setTimeframe,
     toggleTheme,
@@ -54,17 +55,14 @@ export default function App() {
           <span className="brand-mark">◧</span> Trader
         </div>
         <div className="topbar-controls">
+          <SymbolSearch />
           <ConnectionBadge />
           <ThemeToggle theme={theme} onToggle={toggleTheme} />
         </div>
       </header>
 
       <div className="body">
-        <Watchlist
-          symbols={WATCHLIST_SYMBOLS}
-          active={symbol}
-          onSelect={setSymbol}
-        />
+        <Watchlist symbols={favorites} active={symbol} onSelect={setSymbol} />
 
         <main className="content">
           <PriceHeader symbol={symbol} ticker={ticker} />

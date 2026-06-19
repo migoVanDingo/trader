@@ -7,13 +7,11 @@ where the app goes from "works" to "feels like a real trading app."
 ## Shipped
 
 - ✅ **Crosshair OHLC legend** (plan 0004) — `useCrosshair` + `OhlcLegend`.
+- ✅ **Symbol search / dynamic markets** (plan 0005) — `exchangeInfo` + favorites.
 - ✅ **Persist user preferences** (plan 0002) — Zustand `persist`.
 
 ## Top picks (highest value, reasonable effort)
 
-3. **Symbol search / dynamic markets.** Replace the hard-coded list with a search
-   over Binance `exchangeInfo` (all USDT pairs), plus a "favorites" set that feeds
-   the watchlist. Unlocks the whole market instead of 10 coins.
 4. **More indicators.** MACD and Bollinger Bands are the obvious next two (EMA and
    volume-MA are nearly free given the existing `ema()`). MACD needs a second
    pane — the RSI pane work already proves that path.

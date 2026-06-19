@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { ThemeName } from "../theme";
 import { DEFAULT_TIMEFRAME_ID } from "../lib/timeframes";
+import { WATCHLIST_SYMBOLS } from "../lib/symbols";
 
 /** Theme for the very first visit (before anything is persisted). */
 function defaultTheme(): ThemeName {
@@ -19,12 +20,15 @@ interface AppState {
   showRSI: boolean;
   rsiPeriod: number;
   showVolume: boolean;
+  // Watchlist:
+  favorites: string[];
   setSymbol: (symbol: string) => void;
   setTimeframe: (id: string) => void;
   toggleTheme: () => void;
   toggleMA: (period: number) => void;
   toggleRSI: () => void;
   toggleVolume: () => void;
+  toggleFavorite: (symbol: string) => void;
 }
 
 export const useStore = create<AppState>()(
@@ -37,6 +41,7 @@ export const useStore = create<AppState>()(
       showRSI: false,
       rsiPeriod: 14,
       showVolume: true,
+      favorites: WATCHLIST_SYMBOLS,
       setSymbol: (symbol) => set({ symbol }),
       setTimeframe: (timeframeId) => set({ timeframeId }),
       toggleTheme: () =>
@@ -49,6 +54,12 @@ export const useStore = create<AppState>()(
         })),
       toggleRSI: () => set((s) => ({ showRSI: !s.showRSI })),
       toggleVolume: () => set((s) => ({ showVolume: !s.showVolume })),
+      toggleFavorite: (symbol) =>
+        set((s) => ({
+          favorites: s.favorites.includes(symbol)
+            ? s.favorites.filter((f) => f !== symbol)
+            : [...s.favorites, symbol],
+        })),
     }),
     {
       name: "trader-store",
@@ -61,6 +72,7 @@ export const useStore = create<AppState>()(
         showRSI: s.showRSI,
         rsiPeriod: s.rsiPeriod,
         showVolume: s.showVolume,
+        favorites: s.favorites,
       }),
     },
   ),

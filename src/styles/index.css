@@ -2,6 +2,7 @@
    scoped to one area (see CLAUDE.md → modularity). */
 @import "./base.css";
 @import "./topbar.css";
+@import "./symbol-search.css";
 @import "./layout.css";
 @import "./watchlist.css";
 @import "./price-header.css";

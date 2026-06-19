@@ -1,5 +1,5 @@
 import type { UTCTimestamp } from "lightweight-charts";
-import type { Candle, Interval, Ticker24h } from "../types";
+import type { Candle, Interval, Market, Ticker24h } from "../types";
 
 // Public Binance market-data endpoints — no API key required.
 // Using the US endpoint since api.binance.com returns HTTP 451 (region block)
@@ -72,6 +72,36 @@ export async function fetchTickers(
     };
   }
   return out;
+}
+
+interface RawExchangeSymbol {
+  symbol: string;
+  baseAsset: string;
+  quoteAsset: string;
+  status: string;
+  filters: { filterType: string; tickSize?: string }[];
+}
+
+/** Fetch all tradable USDT markets (symbol search). */
+export async function fetchExchangeInfo(): Promise<Market[]> {
+  const res = await fetch(`${BASE}/api/v3/exchangeInfo`);
+  if (!res.ok) {
+    throw new Error(`Binance exchangeInfo ${res.status}: ${await res.text()}`);
+  }
+  const data = (await res.json()) as { symbols: RawExchangeSymbol[] };
+  return data.symbols
+    .filter((s) => s.quoteAsset === "USDT" && s.status === "TRADING")
+    .map((s) => {
+      const priceFilter = s.filters.find(
+        (f) => f.filterType === "PRICE_FILTER",
+      );
+      return {
+        symbol: s.symbol,
+        base: s.baseAsset,
+        tickSize: priceFilter ? parseFloat(priceFilter.tickSize ?? "0") : 0,
+      };
+    })
+    .sort((a, b) => a.symbol.localeCompare(b.symbol));
 }
 
 /** Fetch 24h rolling stats for the price header. */

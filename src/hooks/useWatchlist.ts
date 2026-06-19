@@ -38,6 +38,10 @@ export function useWatchlist(symbols: string[]): WatchlistQuotes {
   const key = symbols.join(",");
 
   useEffect(() => {
+    if (symbols.length === 0) {
+      setQuotes({});
+      return;
+    }
     let cancelled = false;
 
     const seed = () => {

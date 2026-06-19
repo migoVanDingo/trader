@@ -75,6 +75,8 @@ React state. This is where REST seeds and live streams are merged.
 - **`useWatchlist(symbols[])`** → `Record<symbol, SymbolQuote>`
   - One batched REST seed for all symbols, then a single combined
     `…@miniTicker` stream. Change % is derived as `(last - open) / open`.
+- **`useMarkets()`** → `Market[]` — all tradable USDT pairs from
+  `exchangeInfo`, fetched once and module-cached (powers symbol search).
 
 ### `src/lib/` — pure logic & config (no React, no I/O)
 
@@ -93,10 +95,10 @@ Most `lib/` modules have colocated `*.test.ts` files (Vitest).
 
 ### `src/state/` — UI state (Zustand)
 
-- **`store.ts`** — `symbol`, `timeframeId`, `theme`, and indicator toggles
-  (`ma[]`, `showRSI`, `rsiPeriod`, `showVolume`). Wrapped in the `persist`
-  middleware: all of those preferences survive a reload; theme defaults to the OS
-  `prefers-color-scheme` on first visit.
+- **`store.ts`** — `symbol`, `timeframeId`, `theme`, indicator toggles (`ma[]`,
+  `showRSI`, `rsiPeriod`, `showVolume`), and `favorites[]` (the watchlist).
+  Wrapped in the `persist` middleware: all of those preferences survive a reload;
+  theme defaults to the OS `prefers-color-scheme` on first visit.
 - **`connection.ts`** — tracks each live socket's status (klines / ticker /
   watchlist) and exposes the worst-of overall status for the badge.
 

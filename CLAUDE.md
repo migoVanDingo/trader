@@ -43,12 +43,12 @@ are fallbacks — the `api/` layer isolates this).
 ```
 src/
   api/          binance.ts (REST), ws.ts (WebSocket manager + connection status)
-  hooks/        useKlines, useTicker, useWatchlist, useLatestRef
+  hooks/        useKlines, useTicker, useWatchlist, useMarkets, useLatestRef
     chart/      useChart, useCandleData, useMaSeries, useRsiPane, useCrosshair
   lib/          indicators, timeframes, symbols, format,
                 chartOptions, chartConstants  (pure logic + config)  + *.test.ts
   components/   Chart/ (CandleChart, OhlcLegend, TimeframeBar, IndicatorMenu),
-                PriceHeader, ThemeToggle, ConnectionBadge, Watchlist/
+                PriceHeader, ThemeToggle, ConnectionBadge, SymbolSearch, Watchlist/
   state/        store.ts (Zustand persist), connection.ts (live status)
   styles/       index.css + per-area files (base, topbar, watchlist, …)
   theme.ts      single source for all colors → chartThemes + injected CSS vars
@@ -61,7 +61,9 @@ scripts/        check-file-sizes.mjs (600-line guard)
 
 - **Add a timeframe** → `src/lib/timeframes.ts` (`TIMEFRAMES` array). Each entry
   maps a button to a Binance candle `interval` + `limit`.
-- **Add a watchlist coin** → `src/lib/symbols.ts` (`WATCHLIST_SYMBOLS`).
+- **Watchlist coins** → user-managed at runtime via `SymbolSearch` (star to
+  favorite); `favorites` lives in the store. `src/lib/symbols.ts`
+  (`WATCHLIST_SYMBOLS`) only seeds the default favorites.
 - **Add an indicator** → math in `src/lib/indicators.ts` (+ a test), a toggle in
   the store (`src/state/store.ts`), a menu entry in `IndicatorMenu.tsx`, and a
   rendering hook in `src/hooks/chart/` wired from `CandleChart.tsx`.

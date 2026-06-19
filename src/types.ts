@@ -10,6 +10,13 @@ export interface Candle {
   volume: number;
 }
 
+/** A tradable market (from exchangeInfo), used by symbol search. */
+export interface Market {
+  symbol: string; // e.g. BTCUSDT
+  base: string; // e.g. BTC
+  tickSize: number; // price increment (for precision)
+}
+
 /** 24h rolling statistics for the price header. */
 export interface Ticker24h {
   lastPrice: number;
