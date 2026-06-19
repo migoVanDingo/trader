@@ -4,14 +4,13 @@ What to build next, grouped by theme and roughly prioritized. The five core buil
 steps (chart → timeframes → live WS → watchlist → indicators) are done; this is
 where the app goes from "works" to "feels like a real trading app."
 
+## Shipped
+
+- ✅ **Crosshair OHLC legend** (plan 0004) — `useCrosshair` + `OhlcLegend`.
+- ✅ **Persist user preferences** (plan 0002) — Zustand `persist`.
+
 ## Top picks (highest value, reasonable effort)
 
-1. **Crosshair OHLC legend.** A small overlay that shows O/H/L/C, change %, and
-   volume for the candle under the cursor (and the live values otherwise).
-   lightweight-charts exposes `subscribeCrosshairMove`; this is the single biggest
-   "feels real" upgrade and is mostly UI.
-2. **Persist user preferences.** Symbol, timeframe, and indicator toggles should
-   survive a reload (see refactoring #4). Cheap, high quality-of-life.
 3. **Symbol search / dynamic markets.** Replace the hard-coded list with a search
    over Binance `exchangeInfo` (all USDT pairs), plus a "favorites" set that feeds
    the watchlist. Unlocks the whole market instead of 10 coins.

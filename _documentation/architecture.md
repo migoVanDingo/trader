@@ -143,6 +143,9 @@ composes four focused hooks, each owning one concern of the chart:
 - **`useRsiPane(refs, candles, update, enabled, period, theme)`** — the RSI line
   in **pane index 1** (a real second pane, a v5 feature) with dashed 70/30
   reference lines sized via `setStretchFactor`; create/destroy + live tip.
+- **`useCrosshair(refs)`** — subscribes to `subscribeCrosshairMove` and returns the
+  hovered candle's OHLCV (or `null`); `OhlcLegend` renders it, falling back to the
+  live/latest candle when not hovering.
 
 **Seed vs. live:** seed data uses `setData` (+ `fitContent`); live ticks use
 `series.update()` so the user's zoom/pan/crosshair is preserved. The MA tip uses

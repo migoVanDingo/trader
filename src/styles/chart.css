@@ -8,6 +8,45 @@
   overflow: hidden;
 }
 
+.candle-chart {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.candle-chart-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* OHLC legend overlay */
+.ohlc-legend {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--text-dim);
+  pointer-events: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.ohlc-legend b {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.ohlc-legend .pos {
+  color: var(--pos);
+}
+
+.ohlc-legend .neg {
+  color: var(--neg);
+}
+
 .chart-overlay {
   position: absolute;
   top: 12px;

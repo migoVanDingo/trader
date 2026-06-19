@@ -6,6 +6,8 @@ import { useChart } from "../../hooks/chart/useChart";
 import { useCandleData } from "../../hooks/chart/useCandleData";
 import { useMaSeries } from "../../hooks/chart/useMaSeries";
 import { useRsiPane } from "../../hooks/chart/useRsiPane";
+import { useCrosshair } from "../../hooks/chart/useCrosshair";
+import { OhlcLegend } from "./OhlcLegend";
 
 interface Props {
   candles: Candle[];
@@ -28,6 +30,15 @@ export function CandleChart({ candles, update, theme, indicators }: Props) {
     indicators.rsiPeriod,
     theme,
   );
+  const hovered = useCrosshair(refs);
 
-  return <div ref={containerRef} style={{ width: "100%", height: "100%" }} />;
+  // Hovered bar, else the live/forming candle, else the latest seeded candle.
+  const legendCandle = hovered ?? update ?? candles[candles.length - 1] ?? null;
+
+  return (
+    <div className="candle-chart">
+      <OhlcLegend candle={legendCandle} />
+      <div ref={containerRef} className="candle-chart-canvas" />
+    </div>
+  );
 }
