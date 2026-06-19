@@ -1,6 +1,8 @@
 import { useWatchlist } from "../../hooks/useWatchlist";
+import { useSparklines } from "../../hooks/useSparklines";
 import { baseAsset } from "../../lib/symbols";
 import { formatPrice, formatPercent } from "../../lib/format";
+import { Sparkline } from "./Sparkline";
 
 interface Props {
   symbols: string[];
@@ -10,6 +12,7 @@ interface Props {
 
 export function Watchlist({ symbols, active, onSelect }: Props) {
   const quotes = useWatchlist(symbols);
+  const sparklines = useSparklines(symbols);
 
   return (
     <aside className="watchlist">
@@ -28,6 +31,9 @@ export function Watchlist({ symbols, active, onSelect }: Props) {
                 <span className="watch-sym">{baseAsset(symbol)}</span>
                 <span className="watch-price">
                   {q ? formatPrice(q.lastPrice) : "—"}
+                </span>
+                <span className="watch-spark">
+                  <Sparkline values={sparklines[symbol]} />
                 </span>
                 <span className={`watch-chg ${up ? "pos" : "neg"}`}>
                   {q ? formatPercent(q.changePercent) : ""}

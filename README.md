@@ -13,7 +13,8 @@ REST + WebSocket API (no API key needed).
   (each in its own pane), all toggleable and live.
 - **Symbol search** across every USDT pair (`exchangeInfo`); star to add to the
   watchlist.
-- **Live watchlist** of your favorite coins and a 24h price header, over WebSocket.
+- **Live watchlist** of your favorite coins (with 24h sparklines) and a 24h price
+  header, over WebSocket.
 - **Order book** (live depth) and a **recent-trades tape** in a collapsible side
   panel.
 - **Light / dark theme** (persisted) and a connection-status badge.

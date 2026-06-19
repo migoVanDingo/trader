@@ -56,8 +56,37 @@
   text-align: right;
 }
 
+.watch-spark {
+  grid-column: 1;
+  display: flex;
+  align-items: center;
+}
+
+.sparkline {
+  display: block;
+}
+
+.sparkline path {
+  stroke: var(--text-dim);
+}
+
+.sparkline.up path {
+  stroke: var(--pos);
+}
+
+.sparkline.down path {
+  stroke: var(--neg);
+}
+
+.sparkline-placeholder {
+  display: inline-block;
+  width: 64px;
+  height: 20px;
+}
+
 .watch-chg {
   grid-column: 2;
+  align-self: center;
   font-size: 12px;
   font-weight: 600;
   text-align: right;

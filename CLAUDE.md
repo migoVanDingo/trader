@@ -44,10 +44,10 @@ are fallbacks — the `api/` layer isolates this).
 src/
   api/          binance.ts (REST), ws.ts (WebSocket manager + connection status)
   hooks/        useKlines, useTicker, useWatchlist, useMarkets, useOrderBook,
-                useTrades, useLatestRef
+                useTrades, useSparklines, useLatestRef
     chart/      useChart, useCandleData, useMaLines, useBollingerBands,
                 useVolumeMa, useRsiPane, useMacdPane, useCrosshair
-  lib/          indicators, timeframes, symbols, format,
+  lib/          indicators, timeframes, symbols, format, sparkline,
                 chartOptions, chartConstants  (pure logic + config)  + *.test.ts
   components/   Chart/ (CandleChart, OhlcLegend, TimeframeBar, IndicatorMenu),
                 PriceHeader, ThemeToggle, ConnectionBadge, SymbolSearch,

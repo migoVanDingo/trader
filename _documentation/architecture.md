@@ -81,6 +81,8 @@ React state. This is where REST seeds and live streams are merged.
   (`…@depth20@100ms`); a fresh snapshot every 100ms, no REST seed needed.
 - **`useTrades(symbol)`** → `Trade[]` — capped rolling tape from the
   `…@aggTrade` stream.
+- **`useSparklines(symbols)`** → `Record<symbol, number[]>` — ~24h close series
+  per watchlist symbol (one `1h × 24` kline fetch each, session-cached).
 
 ### `src/lib/` — pure logic & config (no React, no I/O)
 
