@@ -12,3 +12,5 @@
 @import "./side-panel.css";
 @import "./order-book.css";
 @import "./trades.css";
+@import "./alerts.css";
+@import "./toasts.css";

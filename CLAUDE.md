@@ -44,15 +44,16 @@ are fallbacks — the `api/` layer isolates this).
 src/
   api/          binance.ts (REST), ws.ts (WebSocket manager + connection status)
   hooks/        useKlines, useTicker, useWatchlist, useMarkets, useOrderBook,
-                useTrades, useSparklines, useLatestRef
+                useTrades, useSparklines, useAlertWatcher, useLatestRef
     chart/      useChart, useCandleData, useMaLines, useBollingerBands,
                 useVolumeMa, useRsiPane, useMacdPane, useCrosshair
-  lib/          indicators, timeframes, symbols, format, sparkline,
-                chartOptions, chartConstants  (pure logic + config)  + *.test.ts
+  lib/          indicators, timeframes, symbols, format, sparkline, alerts,
+                notify, chartOptions, chartConstants  (pure logic)  + *.test.ts
   components/   Chart/ (CandleChart, OhlcLegend, TimeframeBar, IndicatorMenu),
                 PriceHeader, ThemeToggle, ConnectionBadge, SymbolSearch,
-                Watchlist/, SidePanel/, OrderBook/, Trades/
-  state/        store.ts (Zustand persist), connection.ts (live status)
+                Watchlist/, SidePanel/, OrderBook/, Trades/, Alerts/, Toasts
+  state/        store.ts (Zustand persist), connection.ts (live status),
+                alerts.ts (persisted), toasts.ts
   styles/       index.css + per-area files (base, topbar, watchlist, …)
   theme.ts      single source for all colors → chartThemes + injected CSS vars
   test/setup.ts Vitest + jest-dom setup

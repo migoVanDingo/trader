@@ -106,7 +106,12 @@ Most `lib/` modules have colocated `*.test.ts` files (Vitest).
   Wrapped in the `persist` middleware: all of those preferences survive a reload;
   theme defaults to the OS `prefers-color-scheme` on first visit.
 - **`connection.ts`** — tracks each live socket's status (klines / ticker /
-  watchlist) and exposes the worst-of overall status for the badge.
+  watchlist / orderbook / trades / alerts) and exposes the worst-of overall
+  status for the badge.
+- **`alerts.ts`** — persisted price-alert rules (`trader-alerts`). **`toasts.ts`**
+  — ephemeral in-app toasts. `useAlertWatcher` subscribes to the alerted symbols'
+  `miniTicker` streams and fires each rule once (toast + browser notification via
+  `lib/notify.ts`) when `crossed()` is true.
 
 ### `src/components/` — presentation
 

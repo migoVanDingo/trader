@@ -14,6 +14,9 @@ import { SymbolSearch } from "./components/SymbolSearch";
 import { SidePanel } from "./components/SidePanel/SidePanel";
 import { OrderBook } from "./components/OrderBook/OrderBook";
 import { TradesTape } from "./components/Trades/TradesTape";
+import { AlertsPanel } from "./components/Alerts/AlertsPanel";
+import { Toasts } from "./components/Toasts";
+import { useAlertWatcher } from "./hooks/useAlertWatcher";
 import type { IndicatorConfig } from "./lib/indicators";
 
 export default function App() {
@@ -39,6 +42,9 @@ export default function App() {
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
   }, [theme]);
+
+  // Watch live prices for any pending price alerts.
+  useAlertWatcher();
 
   const tf = getTimeframe(timeframeId);
   const { candles, lastUpdate, loading, error } = useKlines(
@@ -114,9 +120,16 @@ export default function App() {
               label: "Trades",
               render: () => <TradesTape symbol={symbol} />,
             },
+            {
+              id: "alerts",
+              label: "Alerts",
+              render: () => <AlertsPanel symbol={symbol} />,
+            },
           ]}
         />
       </div>
+
+      <Toasts />
     </div>
   );
 }

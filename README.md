@@ -15,8 +15,8 @@ REST + WebSocket API (no API key needed).
   watchlist.
 - **Live watchlist** of your favorite coins (with 24h sparklines) and a 24h price
   header, over WebSocket.
-- **Order book** (live depth) and a **recent-trades tape** in a collapsible side
-  panel.
+- **Order book** (live depth), a **recent-trades tape**, and **price alerts**
+  (browser notification + toast) in a collapsible side panel.
 - **Light / dark theme** (persisted) and a connection-status badge.
 - Preferences (symbol, timeframe, indicators, theme) persist across reloads.
 

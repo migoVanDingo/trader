@@ -19,8 +19,9 @@ where the app goes from "works" to "feels like a real trading app."
 
 ## Alerts & engagement
 
-8. **Price alerts.** Let the user set a threshold per symbol; fire a browser
-   notification when crossed. Needs the Notifications API + a small rules store.
+- ✅ **Price alerts** (plan 0010) — per-symbol thresholds → toast + browser
+  notification when crossed.
+
 9. **PWA / installable.** Offline shell, add-to-homescreen, mobile polish.
 
 ## Platform & quality
