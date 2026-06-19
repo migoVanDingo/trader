@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchTicker24h } from "../api/binance";
 import { subscribeStream, type TickerMessage } from "../api/ws";
-import { useConnection } from "../state/connection";
+import { statusOptions, clearStatus } from "../state/connection";
 import type { Ticker24h } from "../types";
 
 /**
@@ -38,13 +38,13 @@ export function useTicker(symbol: string): Ticker24h | null {
           });
         }
       },
-      { onStatus: (s) => useConnection.getState().setStatus("ticker", s) },
+      statusOptions("ticker"),
     );
 
     return () => {
       cancelled = true;
       handle.close();
-      useConnection.getState().clear("ticker");
+      clearStatus("ticker");
     };
   }, [symbol]);
 

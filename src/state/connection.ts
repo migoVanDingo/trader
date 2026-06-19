@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { ConnectionStatus } from "../api/ws";
+import type { ConnectionStatus, SubscribeOptions } from "../api/ws";
 
 // Tracks the status of each named WebSocket connection (klines / ticker /
 // watchlist) so the UI can show one combined connectivity badge.
@@ -20,6 +20,22 @@ export const useConnection = create<ConnectionState>((set) => ({
       return { statuses: next };
     }),
 }));
+
+/** Build SubscribeOptions that report this connection's status under `key`. */
+export function statusOptions(
+  key: string,
+  onReconnect?: () => void,
+): SubscribeOptions {
+  return {
+    onReconnect,
+    onStatus: (status) => useConnection.getState().setStatus(key, status),
+  };
+}
+
+/** Drop a connection's status (call on subscription teardown). */
+export function clearStatus(key: string): void {
+  useConnection.getState().clear(key);
+}
 
 /** Worst-of all connections — what the badge displays. */
 export function overallStatus(

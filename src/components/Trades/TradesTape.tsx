@@ -1,9 +1,5 @@
 import { useTrades } from "../../hooks/useTrades";
-import { formatPrice, formatTime } from "../../lib/format";
-
-function formatQty(qty: number): string {
-  return qty.toLocaleString("en-US", { maximumFractionDigits: 4 });
-}
+import { formatPrice, formatAmount, formatTime } from "../../lib/format";
 
 export function TradesTape({ symbol }: { symbol: string }) {
   const trades = useTrades(symbol);
@@ -26,7 +22,7 @@ export function TradesTape({ symbol }: { symbol: string }) {
             className={`trade-row ${t.buyerMaker ? "sell" : "buy"}`}
           >
             <span className="trade-price">{formatPrice(t.price)}</span>
-            <span className="trade-qty">{formatQty(t.qty)}</span>
+            <span className="trade-qty">{formatAmount(t.qty)}</span>
             <span className="trade-time">{formatTime(t.time)}</span>
           </div>
         ))}

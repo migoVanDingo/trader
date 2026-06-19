@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { subscribeStream, type AggTradeMessage } from "../api/ws";
-import { useConnection } from "../state/connection";
+import { statusOptions, clearStatus } from "../state/connection";
 
 export interface Trade {
   id: number;
@@ -34,13 +34,13 @@ export function useTrades(symbol: string): Trade[] {
         };
         setTrades((prev) => [trade, ...prev].slice(0, MAX_TRADES));
       },
-      { onStatus: (s) => useConnection.getState().setStatus("trades", s) },
+      statusOptions("trades"),
     );
 
     return () => {
       cancelled = true;
       handle.close();
-      useConnection.getState().clear("trades");
+      clearStatus("trades");
     };
   }, [symbol]);
 

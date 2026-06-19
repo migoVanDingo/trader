@@ -46,7 +46,7 @@ src/
   api/          binance.ts (REST), ws.ts (WebSocket manager + connection status)
   hooks/        useKlines, useTicker, useWatchlist, useMarkets, useOrderBook,
                 useTrades, useSparklines, useAlertWatcher, useHotkeys,
-                useLatestRef
+                useIndicatorConfig, useThemeAttribute, usePopover, useLatestRef
     chart/      useChart, useCandleData, useMaLines, useBollingerBands,
                 useVolumeMa, useRsiPane, useMacdPane, useCrosshair
   lib/          indicators, timeframes, symbols, format, sparkline, alerts,

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { subscribeStream } from "../api/ws";
-import { useConnection } from "../state/connection";
+import { statusOptions, clearStatus } from "../state/connection";
 
 export interface Level {
   price: number;
@@ -40,13 +40,13 @@ export function useOrderBook(symbol: string): OrderBookData {
           asks: d.asks.map(([p, q]) => ({ price: +p, qty: +q })),
         });
       },
-      { onStatus: (s) => useConnection.getState().setStatus("orderbook", s) },
+      statusOptions("orderbook"),
     );
 
     return () => {
       cancelled = true;
       handle.close();
-      useConnection.getState().clear("orderbook");
+      clearStatus("orderbook");
     };
   }, [symbol]);
 

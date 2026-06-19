@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useShallow } from "zustand/react/shallow";
 import {
   MA_PERIODS,
   EMA_PERIODS,
@@ -6,23 +6,28 @@ import {
   emaColor,
 } from "../../lib/indicators";
 import { useStore } from "../../state/store";
+import { usePopover } from "../../hooks/usePopover";
 
 export function IndicatorMenu() {
-  const s = useStore();
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  // Close when clicking outside the menu.
-  useEffect(() => {
-    if (!open) return;
-    const onDown = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", onDown);
-    return () => document.removeEventListener("mousedown", onDown);
-  }, [open]);
+  const s = useStore(
+    useShallow((st) => ({
+      ma: st.ma,
+      ema: st.ema,
+      showBollinger: st.showBollinger,
+      showVolume: st.showVolume,
+      showVolumeMa: st.showVolumeMa,
+      showRSI: st.showRSI,
+      showMACD: st.showMACD,
+      toggleMA: st.toggleMA,
+      toggleEMA: st.toggleEMA,
+      toggleBollinger: st.toggleBollinger,
+      toggleVolume: st.toggleVolume,
+      toggleVolumeMa: st.toggleVolumeMa,
+      toggleRSI: st.toggleRSI,
+      toggleMACD: st.toggleMACD,
+    })),
+  );
+  const { open, setOpen, ref } = usePopover();
 
   const activeCount =
     s.ma.length +

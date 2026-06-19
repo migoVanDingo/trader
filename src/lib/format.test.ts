@@ -1,5 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { formatPrice, formatPercent, formatCompact } from "./format";
+import {
+  formatPrice,
+  formatPercent,
+  formatCompact,
+  formatAmount,
+} from "./format";
 
 describe("formatPrice", () => {
   it("uses 2 decimals for large prices with thousands separators", () => {
@@ -27,6 +32,17 @@ describe("formatPercent", () => {
 
   it("has no sign for zero", () => {
     expect(formatPercent(0)).toBe("0.00%");
+  });
+});
+
+describe("formatAmount", () => {
+  it("keeps small sizes and trims to 4 decimals", () => {
+    expect(formatAmount(0.003)).toBe("0.003");
+    expect(formatAmount(1234.56789)).toBe("1,234.5679");
+  });
+
+  it("renders a dash for non-finite values", () => {
+    expect(formatAmount(NaN)).toBe("—");
   });
 });
 

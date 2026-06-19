@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useMarkets } from "../hooks/useMarkets";
+import { usePopover } from "../hooks/usePopover";
 import { useStore } from "../state/store";
 import { baseAsset } from "../lib/symbols";
 
@@ -13,20 +14,13 @@ export function SymbolSearch() {
   const setSymbol = useStore((s) => s.setSymbol);
   const toggleFavorite = useStore((s) => s.toggleFavorite);
 
-  const [open, setOpen] = useState(false);
+  const { open, setOpen, ref } = usePopover();
   const [query, setQuery] = useState("");
-  const ref = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Focus the search box when the popover opens.
   useEffect(() => {
-    if (!open) return;
-    inputRef.current?.focus();
-    const onDown = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node))
-        setOpen(false);
-    };
-    document.addEventListener("mousedown", onDown);
-    return () => document.removeEventListener("mousedown", onDown);
+    if (open) inputRef.current?.focus();
   }, [open]);
 
   const results = useMemo(() => {

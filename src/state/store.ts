@@ -11,6 +11,13 @@ function defaultTheme(): ThemeName {
     : "light";
 }
 
+/** Add/remove a numeric value from a sorted list (toggle membership). */
+function toggleIn(list: number[], value: number): number[] {
+  return list.includes(value)
+    ? list.filter((v) => v !== value)
+    : [...list, value].sort((a, b) => a - b);
+}
+
 interface AppState {
   symbol: string;
   timeframeId: string;
@@ -58,18 +65,8 @@ export const useStore = create<AppState>()(
       setTimeframe: (timeframeId) => set({ timeframeId }),
       toggleTheme: () =>
         set((s) => ({ theme: s.theme === "dark" ? "light" : "dark" })),
-      toggleMA: (period) =>
-        set((s) => ({
-          ma: s.ma.includes(period)
-            ? s.ma.filter((p) => p !== period)
-            : [...s.ma, period].sort((a, b) => a - b),
-        })),
-      toggleEMA: (period) =>
-        set((s) => ({
-          ema: s.ema.includes(period)
-            ? s.ema.filter((p) => p !== period)
-            : [...s.ema, period].sort((a, b) => a - b),
-        })),
+      toggleMA: (period) => set((s) => ({ ma: toggleIn(s.ma, period) })),
+      toggleEMA: (period) => set((s) => ({ ema: toggleIn(s.ema, period) })),
       toggleBollinger: () => set((s) => ({ showBollinger: !s.showBollinger })),
       toggleRSI: () => set((s) => ({ showRSI: !s.showRSI })),
       toggleVolume: () => set((s) => ({ showVolume: !s.showVolume })),

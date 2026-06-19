@@ -5,9 +5,8 @@ import {
   subscribeStream,
   type MiniTickerMessage,
   type StreamHandle,
-  type SubscribeOptions,
 } from "../api/ws";
-import { useConnection } from "../state/connection";
+import { statusOptions, clearStatus } from "../state/connection";
 
 export type WatchlistQuotes = Record<string, SymbolQuote>;
 
@@ -56,10 +55,7 @@ export function useWatchlist(symbols: string[]): WatchlistQuotes {
 
     seed();
 
-    const opts: SubscribeOptions = {
-      onReconnect: () => seed(),
-      onStatus: (s) => useConnection.getState().setStatus("watchlist", s),
-    };
+    const opts = statusOptions("watchlist", () => seed());
 
     let handle: StreamHandle;
     if (symbols.length > COMBINED_MAX) {
@@ -94,7 +90,7 @@ export function useWatchlist(symbols: string[]): WatchlistQuotes {
     return () => {
       cancelled = true;
       handle.close();
-      useConnection.getState().clear("watchlist");
+      clearStatus("watchlist");
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);

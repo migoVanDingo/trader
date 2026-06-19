@@ -1,11 +1,7 @@
 import { useOrderBook, type Level } from "../../hooks/useOrderBook";
-import { formatPrice } from "../../lib/format";
+import { formatPrice, formatAmount } from "../../lib/format";
 
 const ROWS = 12;
-
-function formatQty(qty: number): string {
-  return qty.toLocaleString("en-US", { maximumFractionDigits: 4 });
-}
 
 interface RowProps {
   level: Level;
@@ -20,7 +16,7 @@ function Row({ level, cum, maxCum, side }: RowProps) {
     <div className={`ob-row ${side}`}>
       <span className="ob-depth" style={{ width }} />
       <span className="ob-price">{formatPrice(level.price)}</span>
-      <span className="ob-qty">{formatQty(level.qty)}</span>
+      <span className="ob-qty">{formatAmount(level.qty)}</span>
     </div>
   );
 }

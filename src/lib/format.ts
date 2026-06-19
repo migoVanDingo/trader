@@ -15,6 +15,12 @@ export function formatPercent(value: number): string {
   return `${sign}${value.toFixed(2)}%`;
 }
 
+/** Format a trade/order size (quantity), up to 4 decimals. */
+export function formatAmount(value: number): string {
+  if (!isFinite(value)) return "—";
+  return value.toLocaleString("en-US", { maximumFractionDigits: 4 });
+}
+
 /** Format a UNIX-ms timestamp as a local HH:MM:SS clock time. */
 export function formatTime(ms: number): string {
   if (!isFinite(ms)) return "—";

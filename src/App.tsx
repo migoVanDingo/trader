@@ -1,8 +1,11 @@
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { useStore } from "./state/store";
 import { useKlines } from "./hooks/useKlines";
 import { useTicker } from "./hooks/useTicker";
 import { useHotkeys } from "./hooks/useHotkeys";
+import { useThemeAttribute } from "./hooks/useThemeAttribute";
+import { useIndicatorConfig } from "./hooks/useIndicatorConfig";
+import { useAlertWatcher } from "./hooks/useAlertWatcher";
 import { getTimeframe, TIMEFRAMES } from "./lib/timeframes";
 import { CandleChart } from "./components/Chart/CandleChart";
 import { TimeframeBar } from "./components/Chart/TimeframeBar";
@@ -13,38 +16,21 @@ import { ThemeToggle } from "./components/ThemeToggle";
 import { ConnectionBadge } from "./components/ConnectionBadge";
 import { SymbolSearch } from "./components/SymbolSearch";
 import { SidePanel } from "./components/SidePanel/SidePanel";
-import { OrderBook } from "./components/OrderBook/OrderBook";
-import { TradesTape } from "./components/Trades/TradesTape";
-import { AlertsPanel } from "./components/Alerts/AlertsPanel";
+import { marketPanelTabs } from "./components/SidePanel/panelTabs";
 import { Toasts } from "./components/Toasts";
-import { useAlertWatcher } from "./hooks/useAlertWatcher";
-import type { IndicatorConfig } from "./lib/indicators";
 
 export default function App() {
   const {
     symbol,
     timeframeId,
     theme,
-    ma,
-    ema,
-    showBollinger,
-    showRSI,
-    rsiPeriod,
-    showVolume,
-    showVolumeMa,
-    showMACD,
     favorites,
     setSymbol,
     setTimeframe,
     toggleTheme,
   } = useStore();
 
-  // Reflect the theme on <html> so CSS variables switch.
-  useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-  }, [theme]);
-
-  // Watch live prices for any pending price alerts.
+  useThemeAttribute(theme);
   useAlertWatcher();
 
   // Keyboard shortcuts: 1–9/0 pick a timeframe, "t" toggles theme.
@@ -64,17 +50,7 @@ export default function App() {
     tf.limit,
   );
   const ticker = useTicker(symbol);
-
-  const indicators: IndicatorConfig = {
-    ma,
-    ema,
-    bollinger: showBollinger,
-    rsi: showRSI,
-    rsiPeriod,
-    volume: showVolume,
-    volumeMa: showVolumeMa,
-    macd: showMACD,
-  };
+  const indicators = useIndicatorConfig();
 
   return (
     <div className="app">
@@ -123,25 +99,7 @@ export default function App() {
           </div>
         </main>
 
-        <SidePanel
-          tabs={[
-            {
-              id: "book",
-              label: "Order Book",
-              render: () => <OrderBook symbol={symbol} />,
-            },
-            {
-              id: "trades",
-              label: "Trades",
-              render: () => <TradesTape symbol={symbol} />,
-            },
-            {
-              id: "alerts",
-              label: "Alerts",
-              render: () => <AlertsPanel symbol={symbol} />,
-            },
-          ]}
-        />
+        <SidePanel tabs={marketPanelTabs(symbol)} />
       </div>
 
       <Toasts />
