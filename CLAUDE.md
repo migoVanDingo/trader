@@ -43,13 +43,15 @@ are fallbacks — the `api/` layer isolates this).
 ```
 src/
   api/          binance.ts (REST), ws.ts (WebSocket manager + connection status)
-  hooks/        useKlines, useTicker, useWatchlist, useMarkets, useLatestRef
+  hooks/        useKlines, useTicker, useWatchlist, useMarkets, useOrderBook,
+                useLatestRef
     chart/      useChart, useCandleData, useMaLines, useBollingerBands,
                 useVolumeMa, useRsiPane, useMacdPane, useCrosshair
   lib/          indicators, timeframes, symbols, format,
                 chartOptions, chartConstants  (pure logic + config)  + *.test.ts
   components/   Chart/ (CandleChart, OhlcLegend, TimeframeBar, IndicatorMenu),
-                PriceHeader, ThemeToggle, ConnectionBadge, SymbolSearch, Watchlist/
+                PriceHeader, ThemeToggle, ConnectionBadge, SymbolSearch,
+                Watchlist/, SidePanel/, OrderBook/
   state/        store.ts (Zustand persist), connection.ts (live status)
   styles/       index.css + per-area files (base, topbar, watchlist, …)
   theme.ts      single source for all colors → chartThemes + injected CSS vars

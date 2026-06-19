@@ -1,0 +1,79 @@
+.order-book {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.ob-empty {
+  padding: 20px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 13px;
+}
+
+.ob-side {
+  display: flex;
+  flex-direction: column;
+}
+
+.ob-row {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  padding: 2px 12px;
+  font-size: 12px;
+  overflow: hidden;
+}
+
+/* Cumulative-depth bar, anchored to the right edge. */
+.ob-depth {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+}
+
+.ob-row.ask .ob-depth {
+  background: rgba(239, 83, 80, 0.16);
+}
+
+.ob-row.bid .ob-depth {
+  background: rgba(38, 166, 154, 0.16);
+}
+
+.ob-price,
+.ob-qty {
+  position: relative;
+  z-index: 1;
+}
+
+.ob-row.ask .ob-price {
+  color: var(--neg);
+}
+
+.ob-row.bid .ob-price {
+  color: var(--pos);
+}
+
+.ob-qty {
+  color: var(--text-dim);
+}
+
+.ob-spread {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 12px;
+  margin: 4px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.ob-spread-pct {
+  color: var(--text-dim);
+  font-weight: 500;
+}

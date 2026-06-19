@@ -11,6 +11,8 @@ import { Watchlist } from "./components/Watchlist/Watchlist";
 import { ThemeToggle } from "./components/ThemeToggle";
 import { ConnectionBadge } from "./components/ConnectionBadge";
 import { SymbolSearch } from "./components/SymbolSearch";
+import { SidePanel } from "./components/SidePanel/SidePanel";
+import { OrderBook } from "./components/OrderBook/OrderBook";
 import type { IndicatorConfig } from "./lib/indicators";
 
 export default function App() {
@@ -98,6 +100,16 @@ export default function App() {
             )}
           </div>
         </main>
+
+        <SidePanel
+          tabs={[
+            {
+              id: "book",
+              label: "Order Book",
+              render: () => <OrderBook symbol={symbol} />,
+            },
+          ]}
+        />
       </div>
     </div>
   );

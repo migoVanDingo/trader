@@ -77,6 +77,8 @@ React state. This is where REST seeds and live streams are merged.
     `…@miniTicker` stream. Change % is derived as `(last - open) / open`.
 - **`useMarkets()`** → `Market[]` — all tradable USDT pairs from
   `exchangeInfo`, fetched once and module-cached (powers symbol search).
+- **`useOrderBook(symbol)`** → `{ bids, asks }` — partial-book depth stream
+  (`…@depth20@100ms`); a fresh snapshot every 100ms, no REST seed needed.
 
 ### `src/lib/` — pure logic & config (no React, no I/O)
 
@@ -106,7 +108,9 @@ Most `lib/` modules have colocated `*.test.ts` files (Vitest).
 
 Components read the store and render. They receive data via props/hooks and never
 touch the network. `CandleChart` is the exception to "purely declarative" — it
-orchestrates the imperative chart hooks (see §4).
+orchestrates the imperative chart hooks (see §4). `SidePanel` is a generic
+collapsible/tabbed right rail (hosts the `OrderBook`; trades tape, etc. plug in as
+tabs).
 
 ## 3. End-to-end data flow
 
