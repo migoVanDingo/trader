@@ -54,6 +54,16 @@ export interface MiniTickerMessage {
   o: string; // open price (24h ago) — change% = (c - o) / o
 }
 
+/** Aggregated trade frame: `<symbol>@aggTrade`. */
+export interface AggTradeMessage {
+  e: "aggTrade";
+  a: number; // aggregate trade id
+  p: string; // price
+  q: string; // quantity
+  T: number; // trade time (ms)
+  m: boolean; // is the buyer the market maker? (true → sell-side taker)
+}
+
 /** Live 24h rolling ticker frame: `<symbol>@ticker`. */
 export interface TickerMessage {
   e: "24hrTicker";

@@ -13,6 +13,7 @@ import { ConnectionBadge } from "./components/ConnectionBadge";
 import { SymbolSearch } from "./components/SymbolSearch";
 import { SidePanel } from "./components/SidePanel/SidePanel";
 import { OrderBook } from "./components/OrderBook/OrderBook";
+import { TradesTape } from "./components/Trades/TradesTape";
 import type { IndicatorConfig } from "./lib/indicators";
 
 export default function App() {
@@ -107,6 +108,11 @@ export default function App() {
               id: "book",
               label: "Order Book",
               render: () => <OrderBook symbol={symbol} />,
+            },
+            {
+              id: "trades",
+              label: "Trades",
+              render: () => <TradesTape symbol={symbol} />,
             },
           ]}
         />

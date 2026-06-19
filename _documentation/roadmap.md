@@ -14,8 +14,8 @@ where the app goes from "works" to "feels like a real trading app."
 ## Market depth & activity
 
 - ✅ **Order book panel** (plan 0007) — `…@depth20@100ms` in a collapsible side panel.
+- ✅ **Recent trades tape** (plan 0008) — `…@aggTrade` tab in the side panel.
 
-6. **Recent trades tape.** `…@aggTrade` stream rendered as a scrolling list.
 7. **Watchlist sparklines.** A tiny 24h line per row (one extra kline fetch per
    symbol, or reuse `1d`/`1h` data).
 

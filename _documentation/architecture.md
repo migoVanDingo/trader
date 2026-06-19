@@ -79,6 +79,8 @@ React state. This is where REST seeds and live streams are merged.
   `exchangeInfo`, fetched once and module-cached (powers symbol search).
 - **`useOrderBook(symbol)`** → `{ bids, asks }` — partial-book depth stream
   (`…@depth20@100ms`); a fresh snapshot every 100ms, no REST seed needed.
+- **`useTrades(symbol)`** → `Trade[]` — capped rolling tape from the
+  `…@aggTrade` stream.
 
 ### `src/lib/` — pure logic & config (no React, no I/O)
 

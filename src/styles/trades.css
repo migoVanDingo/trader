@@ -1,0 +1,55 @@
+.trades-tape {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-variant-numeric: tabular-nums;
+}
+
+.trades-empty {
+  padding: 20px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 13px;
+}
+
+.trades-head,
+.trade-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 8px;
+  padding: 3px 12px;
+  font-size: 12px;
+}
+
+.trades-head {
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 10px;
+  padding-top: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.trades-head span:nth-child(2),
+.trade-qty {
+  text-align: right;
+}
+
+.trades-head span:last-child,
+.trade-time {
+  text-align: right;
+  color: var(--text-dim);
+}
+
+.trades-rows {
+  overflow-y: auto;
+}
+
+.trade-row.buy .trade-price {
+  color: var(--pos);
+}
+
+.trade-row.sell .trade-price {
+  color: var(--neg);
+}

@@ -15,6 +15,12 @@ export function formatPercent(value: number): string {
   return `${sign}${value.toFixed(2)}%`;
 }
 
+/** Format a UNIX-ms timestamp as a local HH:MM:SS clock time. */
+export function formatTime(ms: number): string {
+  if (!isFinite(ms)) return "—";
+  return new Date(ms).toLocaleTimeString("en-US", { hour12: false });
+}
+
 /** Compact large numbers, e.g. 1.2B, 345.6M, 12.3K. */
 export function formatCompact(value: number): string {
   if (!isFinite(value)) return "—";
